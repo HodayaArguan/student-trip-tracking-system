@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const teacherController = require('../controllers/teacherController');
-
+const { checkAuth } = require('../middlewares/authMiddleware');
+const isTeacher = require('../middlewares/isTeacher');
 
 router.post('/register', teacherController.registerTeacher);
+router.post('/login', teacherController.login);
 
 
-router.get('/all-users', teacherController.getAllUsers);
+router.get('/all-users',checkAuth, isTeacher, teacherController.getAllUsers);
 
-router.get('/student/:id', teacherController.getStudentById);
+router.get('/student/:id', checkAuth, isTeacher,teacherController.getStudentById);
 
-router.get('/specific-teacher/:id', teacherController.getTeacherById);
+router.get('/specific-teacher/:id', checkAuth, isTeacher, teacherController.getTeacherById);
 
-router.get('/class-students/:className', teacherController.getStudentsInMyClass);
-
+router.get('/class-students/:className', checkAuth, isTeacher, teacherController.getStudentsInMyClass);
 module.exports = router;

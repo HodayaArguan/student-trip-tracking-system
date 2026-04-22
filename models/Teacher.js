@@ -13,6 +13,11 @@ const teacherSchema = new mongoose.Schema({
     trim: true,
     type: String,
     required: true,
+  },
+  password: {
+    minlength: 6,
+    required: true,
+    type: String
   }
   
 });
