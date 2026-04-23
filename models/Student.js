@@ -4,16 +4,31 @@ const studentSchema = new mongoose.Schema({
     trim: true,
     type: String,
     required: true,
-  },id: {
+  },
+  id: {
     unique: true,
     trim: true,
     type: String,
     required: true,
-  }, className: {
+  },
+  className: {
     trim: true,
     type: String,
     required: true,
-  }
-  
+  },
+  lastLocation: {
+    latitude: {
+      type: Number,
+      required: false,
+    },
+    longitude: {
+      type: Number,
+      required: false,
+    },
+    timestamp: {
+      type: Date,
+      required: false,
+    },
+  },
 });
 module.exports = mongoose.models.Student || mongoose.model('Student', studentSchema);
