@@ -113,3 +113,11 @@ exports.getStudentsInMyClass = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+exports.getAllLocations = async (req, res) => {
+    try {
+        const students = await Student.find({}, 'fullName lastLocation');
+        res.status(200).json(students);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

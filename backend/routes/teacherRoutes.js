@@ -15,4 +15,6 @@ router.get('/student/:id', checkAuth, isTeacher,teacherController.getStudentById
 router.get('/specific-teacher/:id', checkAuth, isTeacher, teacherController.getTeacherById);
 
 router.get('/class-students/:className', checkAuth, isTeacher, teacherController.getStudentsInMyClass);
+router.get('/all-locations', checkAuth, isTeacher, teacherController.getAllLocations);
+
 module.exports = router;
