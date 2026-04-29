@@ -72,3 +72,29 @@ exports.updateStudentLocation = async (req, res) => {
     res.status(400).json({ error: 'Error updating location: ' + err.message });
   }
 };
+exports.loginStudent = async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ error: "נא להזין תעודת זהות" });
+        }
+
+        const student = await Student.findOne({ id: String(id) });
+
+        if (!student) {
+            return res.status(404).json({ error: "תלמידה לא נמצאה. יש להירשם קודם." });
+        }
+
+        res.json({ 
+            message: "התחברת בהצלחה!", 
+            student: {
+                fullName: student.fullName,
+                id: student.id,
+                className: student.className
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ error: "שגיאה בשרת: " + err.message });
+    }
+};

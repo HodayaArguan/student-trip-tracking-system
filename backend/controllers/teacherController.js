@@ -6,20 +6,19 @@ const jwt = require('jsonwebtoken');
 
 exports.login = async (req, res, next) => {
     try {
-        const { fullName, password } = req.body;
+        const { id, password } = req.body; 
 
-        if (!fullName || !password) {
+        if (!id || !password) {
             return res.status(400).json({
-                message: 'יש להזין שם מלא וסיסמה'
+                message: 'יש להזין מספר תעודת זהות וסיסמה'
             });
         }
 
-        const foundTeacher = await Teacher.findOne({ fullName }).lean();
+        const foundTeacher = await Teacher.findOne({ id }).lean(); 
 
         if (!foundTeacher) {
             return res.status(401).json({ message: 'משתמש לא נמצא' });
         }
-
         if (!foundTeacher || !foundTeacher.password) { 
              return res.status(401).json({ message: 'משתמש לא נמצא או חסרה סיסמה' });
         }
@@ -32,6 +31,7 @@ exports.login = async (req, res, next) => {
         const userInfo = {
             id: foundTeacher._id,
             fullName: foundTeacher.fullName,
+            className: foundTeacher.className,
             role: 'teacher' 
         };
 
@@ -42,7 +42,8 @@ exports.login = async (req, res, next) => {
             { expiresIn: '7d' } 
         );
 
-        res.json({ accessToken: accessToken });
+        res.json({ accessToken: accessToken , className: foundTeacher.className});
+        
 
     } catch (error) {
         next(error);
@@ -113,9 +114,10 @@ exports.getStudentsInMyClass = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
 exports.getAllLocations = async (req, res) => {
     try {
-        const students = await Student.find({}, 'fullName lastLocation');
+        const students = await Student.find({}); 
         res.status(200).json(students);
     } catch (error) {
         res.status(500).json({ message: error.message });
