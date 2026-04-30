@@ -16,5 +16,7 @@ router.get('/specific-teacher/:id', checkAuth, isTeacher, teacherController.getT
 
 router.get('/class-students/:className', checkAuth, isTeacher, teacherController.getStudentsInMyClass);
 router.get('/all-locations', checkAuth, isTeacher, teacherController.getAllLocations);
+router.get('/check-distances', checkAuth, isTeacher, teacherController.checkNearbyStudents);
+router.post('/update-location', checkAuth, isTeacher, teacherController.updateTeacherLocation);
 
 module.exports = router;

@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { Container, TextField, Button, Typography, Paper, Box, Alert } from '@mui/material';
 
 const StudentDashboard = () => {
-    const [regData, setRegData] = useState({ fullName: '', id: '', className: '' });
-    const [studentId, setStudentId] = useState('');
+    const [studentId, setStudentId] = useState(localStorage.getItem('studentId') || '');
     const [message, setMessage] = useState({ text: '', type: '' });
 
-    // פונקציית עזר להמרת מספר עשרוני למבנה שהשרת דורש
     const convertToDMS = (decimal, type) => {
         const absolute = Math.abs(decimal);
         const degrees = Math.floor(absolute);
@@ -21,18 +19,19 @@ const StudentDashboard = () => {
         return { degrees, minutes, seconds, direction };
     };
 
-    const handleUpdateLocation = () => {
+    const sendLocationUpdate = () => {
         if (!navigator.geolocation) {
-            setMessage({ text: "הדפדפן לא תומך במיקום", type: 'error' });
+            console.error("הדפדפן לא תומך במיקום");
             return;
         }
+        const currentId = studentId || localStorage.getItem('studentId');
+        if (!currentId) return;
 
         navigator.geolocation.getCurrentPosition(async (position) => {
             const { latitude, longitude } = position.coords;
             
-            //איסוף הנתונים למבנה המתאים לשרת שאותם יקבל
             const payload = {
-                id: studentId,
+                id: currentId,
                 coordinates: {
                     latitude: convertToDMS(latitude, 'lat'),
                     longitude: convertToDMS(longitude, 'lng'),
@@ -46,42 +45,59 @@ const StudentDashboard = () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                const data = await response.json();
                 if (response.ok) {
-                    setMessage({ text: "!המיקום עודכן בהצלחה", type: 'success' });
-                } else {
-                    throw new Error(data.error);
+                    console.log("מיקום עודכן אוטומטית בהצלחה");
                 }
             } catch (err) {
-                setMessage({ text: ":שגיאה בעדכון" + err.message, type: 'error' });
+                console.error("שגיאה בעדכון אוטומטי:", err);
             }
         });
     };
 
+    useEffect(() => {
+        sendLocationUpdate();
+
+        const interval = setInterval(() => {
+            sendLocationUpdate();
+        }, 60000);
+
+        return () => clearInterval(interval);
+    }, []); 
+
+    const handleManualUpdate = () => {
+        sendLocationUpdate();
+        setMessage({ text: "בקשת עדכון נשלחה...", type: 'info' });
+    };
+
     return (
-        <Container maxWidth="sm" sx={{ mt: 4 }}>
-            <Typography variant="h3" align="center" gutterBottom>Student Dashboard</Typography>
+        <Container maxWidth="sm" sx={{ mt: 4, direction: 'rtl' }}>
+            <Typography variant="h3" align="center" gutterBottom>שלום {localStorage.getItem('studentName') || 'תלמידה'}</Typography>
             
             {message.text && <Alert severity={message.type} sx={{ mb: 2 }}>{message.text}</Alert>}
 
             <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
-                <Typography variant="h6">עדכון מיקום מהיר</Typography>
+                <Typography variant="h6" gutterBottom>מערכת איכון אוטומטית פעילה</Typography>
+                <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+                    המיקום שלך נשלח לשרת באופן אוטומטי בכל דקה.
+                </Typography>
+                
                 <TextField 
                     fullWidth 
-                    label="הקלידי תעודת זהות" 
+                    label="תעודת זהות מאומתת" 
                     variant="outlined" 
                     margin="normal"
+                    disabled
                     value={studentId}
-                    onChange={(e) => setStudentId(e.target.value)}
                 />
+                
                 <Button 
                     variant="contained" 
                     color="primary" 
                     fullWidth 
-                    onClick={handleUpdateLocation}
+                    onClick={handleManualUpdate}
                     sx={{ mt: 2 }}
                 >
-                    שלחי מיקום נוכחי
+                    עדכני מיקום עכשיו (ידני)
                 </Button>
             </Paper>
         </Container>

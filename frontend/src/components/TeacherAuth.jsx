@@ -6,16 +6,14 @@ const TeacherAuth = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
 
- // לכניסה
+  // לכניסה
   const [idNumber, setIdNumber] = useState('');
-  const [password, setPassword] = useState(''); 
- // לרישום
+  const [password, setPassword] = useState('');
+  // לרישום
   const [fullName, setFullName] = useState('');
-  const [registerId, setRegisterId] = useState(''); 
-  const [className, setClassName] = useState(''); 
-  const [registerPassword, setRegisterPassword] = useState('');   
-
-
+  const [registerId, setRegisterId] = useState('');
+  const [className, setClassName] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,7 +22,6 @@ const TeacherAuth = () => {
       ? 'http://localhost:3000/api/teachers/login'
       : 'http://localhost:3000/api/teachers/register';
 
-    //איסוף הנתונים לאובייקט עבור השרת
     const teacherData = isLogin
       ? { id: idNumber, password: password }
       : {
@@ -46,16 +43,16 @@ const TeacherAuth = () => {
       if (response.ok) {
         alert(isLogin ? "!התחברת בהצלחה" : "!המורה נרשמה בהצלחה");
 
-        //קבלת הטוקן
         if (data.accessToken) {
           localStorage.setItem('token', data.accessToken);
+          localStorage.setItem('teacherId', data.teacherId);
         }
         if (data.className) {
           localStorage.setItem('teacherClass', data.className);
         }
 
         if (isLogin) {
-          navigate('/teacher-dashboard'); 
+          navigate('/teacher-dashboard');
         } else {
           setIsLogin(true);
         }
