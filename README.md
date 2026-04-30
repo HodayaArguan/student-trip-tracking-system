@@ -17,15 +17,15 @@ DB - mongoDB
 ## אופן השימוש
 מערכת לניהול תלמידות בטיול שנתי בירושלים.
 בחירה בין מורה לתלמידה
-![צילום מסך דף הבית](![alt text](assets/image.png))
+![alt text](assets/image.png)
 מורה
 ![alt text](assets/image-1.png)
 DashBoard - מורה
 ![alt text](assets/image-2.png)
 תלמידה
-![alt text](assets/image-4.png)
+![alt text](assets/image-3.png)
 DashBoard - תלמידה
-![alt text](assets/image-5.png)
+![alt text](assets/image-4.png)
 
 ## התקנה והרצה
 1.  הורדת הפרוייקט - clone
