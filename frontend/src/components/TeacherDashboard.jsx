@@ -35,28 +35,17 @@ const TeacherDashboard = () => {
 
     return (
         <Container maxWidth="sm" sx={{ mt: 6, direction: 'rtl', textAlign: 'right' }}>
-            <Typography variant="h4" sx={{ fontWeight: 600, mb: 1, color: '#333' }}>
+            <Typography variant="h4" sx={{ fontWeight: 600, marginBottom: 1, color: '#333',paddingBottom:2 }}>
                 ניהול כיתה {teacherClassName}
             </Typography>
-            <Typography variant="body1" sx={{ color: '#666', mb: 4 }}>
-                שלום למורה, כאן ניתן לצפות בפרטי התלמידות ובמיקומן.
-            </Typography>
-
-            {/* כפתורי פעולה פשוטים */}
-            <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+            <Box sx={{ display: 'flex', gap: 2, marginBottom: 4 }}>
                 <Button variant="contained" disableElevation onClick={fetchMyClass} sx={{ bgcolor: '#2563eb', borderRadius: '8px' }}>
                     הצגת רשימה
                 </Button>
                 <Button variant="outlined" onClick={() => navigate('/map')} sx={{ borderRadius: '8px', color: '#2563eb' }}>
                     צפייה במפה
                 </Button>
-                <Button onClick={() => { localStorage.clear(); navigate('/teacher-auth'); }} sx={{ color: '#999' }}>
-                    התנתקות
-                </Button>
             </Box>
-
-            <Divider sx={{ mb: 4 }} />
-
             {/* רשימת תלמידות */}
             {wasFetched && (
                 <Box>
@@ -82,12 +71,11 @@ const TeacherDashboard = () => {
                                     </Button>
                                 </Box>
                             ))
-                        ) : <Typography>אין בנות בכיתה זו.</Typography>
+                        ) : <Typography> לא נמצאו תלמידות בכיתה זו</Typography>
                     )}
                 </Box>
             )}
 
-            {/* חלון פרטים פשוט */}
             <Dialog open={openModal} onClose={() => setOpenModal(false)} dir="rtl">
                 <Box sx={{ p: 4, minWidth: '300px' }}>
                     <Typography variant="h6" sx={{ mb: 2 }}>פרטי תלמידה</Typography>

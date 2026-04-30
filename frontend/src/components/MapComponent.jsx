@@ -68,7 +68,7 @@ const MapComponent = () => {
       <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
         <GoogleMap
           defaultZoom={10}
-          defaultCenter={{ lat: 31.8928, lng: 35.0110 }}
+          defaultCenter={{ lat: 32.0833, lng: 34.7667 }}
           gestureHandling={'greedy'}
         >
           {students.map(student => (

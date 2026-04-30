@@ -21,7 +21,6 @@ const StudentAuth = () => {
     setLoading(true);
     setMessage({ text: '', type: '' });
 
-    //בחירת ניתוב מתאים על פי סטטוס
     const endpoint = mode === 1 ? 'register' : 'login';
 
     try {

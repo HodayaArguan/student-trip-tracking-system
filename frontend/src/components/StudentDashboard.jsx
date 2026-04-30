@@ -60,7 +60,7 @@ const StudentDashboard = () => {
 
     return (
         <Container maxWidth="sm" sx={{ mt: 4 }}>
-            <Typography variant="h4" align="center" gutterBottom>Student Dashboard</Typography>
+            <Typography variant="h3" align="center" gutterBottom>Student Dashboard</Typography>
             
             {message.text && <Alert severity={message.type} sx={{ mb: 2 }}>{message.text}</Alert>}
 

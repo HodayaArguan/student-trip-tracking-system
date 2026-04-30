@@ -17,7 +17,7 @@ const Footer = () => {
             background: 'linear-gradient(transparent, rgba(255, 255, 255, 0.5))' 
         }}>
             <Typography variant="caption" sx={{ color: '#333', fontWeight: 'bold' }}>
-                 תשפ"ו | בית הספר בנות משה - ירושלים |  © פותח לניהול טיולים ובטיחות
+                 תשפ"ו | בית הספר בנות משה - ירושלים   
             </Typography>
         </Box>
     );
